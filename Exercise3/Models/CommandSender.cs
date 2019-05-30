@@ -16,7 +16,6 @@ namespace Exercise3.Models
         private IPEndPoint ep;
         private TcpClient client;
         public volatile bool isSenderConnected = false;
-        //public volatile bool abort = false; // for immidiate cancel
 
 
         // private constructor
@@ -42,8 +41,6 @@ namespace Exercise3.Models
         // connect function
         public void connectToServer(string ip, int port)
         {
-            //Thread thread = new Thread(() =>
-            //{
             client = new TcpClient();
             ep = new IPEndPoint(IPAddress.Parse(ip), port);
             while (!client.Connected)
@@ -58,19 +55,13 @@ namespace Exercise3.Models
 
                 }
                 isSenderConnected = true;
-                //abort = false;
                 Debug.WriteLine("You are connected");
-            //});
-            //thread.Start();
-            //thread.Join();
         }
         
 
         public string sendAndGetData(string data)
         {
             // Send data to server
-
-            string strValue;
             if (!isSenderConnected)
             {
                 return "not connected yet";
@@ -78,8 +69,10 @@ namespace Exercise3.Models
             string toSend = data + "\r\n";
             NetworkStream stream = client.GetStream();
             Byte[] bytesSent = Encoding.ASCII.GetBytes(toSend);
+            // send request
             stream.Write(bytesSent, 0, bytesSent.Length);
             StreamReader streamReader = new StreamReader(stream);
+            // read answer
             string readFrom = streamReader.ReadLine();
             string res = extractValue(readFrom);
             return res;
@@ -97,10 +90,8 @@ namespace Exercise3.Models
         public void close()
         {
             client.Close();
-            //s.Close();
             isSenderConnected = false;
             Debug.WriteLine("close connection");
-            //abort = true;
         }
 
     }
