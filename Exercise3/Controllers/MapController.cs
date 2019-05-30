@@ -245,6 +245,8 @@ namespace Exercise3.Controllers
         {
             CommandSender commandSender = CommandSender.Instance;
             commandSender.close();
+            ///////////////////////////////////
+            ///github check
         }
     }
 }
