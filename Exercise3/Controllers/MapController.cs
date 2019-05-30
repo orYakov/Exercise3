@@ -133,7 +133,7 @@ namespace Exercise3.Controllers
             string strLat = commandSender.sendAndGetData("get /position/latitude-deg");
             string strThrottle = commandSender.sendAndGetData("get /controls/engines/current-engine/throttle");
             string strRudder = commandSender.sendAndGetData("get /controls/flight/rudder");
-            string valuesStr = strLon + " " + strLat + " " + strThrottle + " " + strRudder;
+            //string valuesStr = strLon + " " + strLat + " " + strThrottle + " " + strRudder;
 
             ///////////////
             Random rnd = new Random();
@@ -149,7 +149,8 @@ namespace Exercise3.Controllers
                 streamWriter.WriteLine(strLon + ',' + strLat + ',' + strThrottle + ',' + strRudder);
             }
 
-                return valuesToXml(valuesStr);
+            string valuesStr = strLon + " " + strLat + " " + strThrottle + " " + strRudder;
+            return valuesToXml(valuesStr);
         }
 
         private string valuesToXml(string toXml)
@@ -164,11 +165,11 @@ namespace Exercise3.Controllers
             writer.WriteStartDocument();
             writer.WriteStartElement("Values");
 
-            ///////////////
-            Random rnd = new Random();
-            locations[0] = (float.Parse(locations[0]) + rnd.Next(50)).ToString();
-            locations[1] = (float.Parse(locations[1]) + rnd.Next(50)).ToString();
             /////////////////
+            //Random rnd = new Random();
+            //locations[0] = (float.Parse(locations[0]) + rnd.Next(50)).ToString();
+            //locations[1] = (float.Parse(locations[1]) + rnd.Next(50)).ToString();
+            ///////////////////
 
             writer.WriteElementString("Lon", locations[0]);
             writer.WriteElementString("Lat", locations[1]);
@@ -245,8 +246,6 @@ namespace Exercise3.Controllers
         {
             CommandSender commandSender = CommandSender.Instance;
             commandSender.close();
-            ///////////////////////////////////
-            ///github check
         }
     }
 }
