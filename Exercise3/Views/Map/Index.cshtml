@@ -26,7 +26,7 @@
         var lon = @ViewBag.lon;
         var lat = @ViewBag.lat;
         // normalize lon and lat 
-        var newLat = (lat - 90) * (canvas.height / -180);
+        var newLat = (lat + 90) * (canvas.height / 180);
         var newLon = (lon + 180) * (canvas.width / 360);
         // draw a point
         ctx.arc(newLon, newLat, 5, 0, 2 * Math.PI);

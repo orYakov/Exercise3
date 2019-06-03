@@ -41,7 +41,7 @@
             lon = parseFloat(lon);
             lat = parseFloat(lat);
             // normalize lon and lat
-            var newLat = (lat - 90) * (canvas.height / -180);
+            var newLat = (lat + 90) * (canvas.height / 180);
             var newLon = (lon + 180) * (canvas.width / 360);
             // in the first time just draw a point
             if (oldLon == -1 && oldLat == -1) {

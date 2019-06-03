@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "displayAndSaveFunc";
 }
 
@@ -7,7 +6,7 @@
 
 <html>
 <head>
-    @*the link of the style*@ 
+    @*the link of the style*@
     <link href="~/Content/StyleSheet1.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -27,7 +26,6 @@
         // initiate these values for the condition below
         var oldLon = -1;
         var oldLat = -1;
-
         var IntervalTime = @Session["time"] * 1000
         var whenToStop = @Session["range"] * 1000
         // the display function
@@ -36,7 +34,6 @@
         $.post( "@Url.Action("GetValues")").done(function (xml) {
             var xmlDoc = $.parseXML(xml),
                 $xml = $(xmlDoc);
-
             // get the values
             lon = $xml.find("Lon").text();
             lat = $xml.find("Lat").text();
@@ -46,8 +43,8 @@
             lat = parseFloat(lat);
             throttle = parseFloat(throttle);
             rudder = parseFloat(rudder);
-            // normalize lon and lat 
-            var newLat = (lat - 90) * (canvas.height / -180);
+            // normalize lon and lat
+            var newLat = (lat + 90) * (canvas.height / 180);
             var newLon = (lon + 180) * (canvas.width / 360);
             // in the first time just draw a point
             if (oldLon == -1 && oldLat == -1) {
@@ -70,7 +67,6 @@
             }
         });
     });
-
         // stop function
         stop = (function () {
         clearInterval(interval)
@@ -81,8 +77,6 @@
         var interval = setInterval(myTimer, IntervalTime);
         // use the function
     myTimer();
-
-
     </script>
 </body>
 </html>
