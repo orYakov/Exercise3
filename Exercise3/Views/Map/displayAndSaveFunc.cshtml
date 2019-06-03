@@ -7,29 +7,38 @@
 
 <html>
 <head>
+    @*the link of the style*@ 
     <link href="~/Content/StyleSheet1.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+    @*the canvas*@
     <canvas id="myCanvas" style="width:100%; height:100%"></canvas>
     <script>
+        //disconnect in case of page change
         window.onbeforeunload = function () {
             $.post("@Url.Action("disconnect")");
         };
         var canvas = document.getElementById("myCanvas");
+        // get the canvas context
         var ctx = canvas.getContext("2d");
+        // set the context to be relative to the window sizes
         ctx.canvas.width = window.innerWidth;
         ctx.canvas.height = window.innerHeight;
+        // initiate these values for the condition below
         var oldLon = -1;
         var oldLat = -1;
 
         var IntervalTime = @Session["time"] * 1000
         var whenToStop = @Session["range"] * 1000
+        // the display function
         myTimer = (function () {
+            // get the xml
         $.post( "@Url.Action("GetValues")").done(function (xml) {
             var xmlDoc = $.parseXML(xml),
                 $xml = $(xmlDoc);
 
-            lon = $xml.find( "Lon" ).text();
+            // get the values
+            lon = $xml.find("Lon").text();
             lat = $xml.find("Lat").text();
             throttle = $xml.find( "Throttle" ).text();
             rudder = $xml.find("Rudder").text();
@@ -37,8 +46,10 @@
             lat = parseFloat(lat);
             throttle = parseFloat(throttle);
             rudder = parseFloat(rudder);
+            // normalize lon and lat 
             var newLat = (lat - 90) * (canvas.height / -180);
             var newLon = (lon + 180) * (canvas.width / 360);
+            // in the first time just draw a point
             if (oldLon == -1 && oldLat == -1) {
                 ctx.beginPath();
                 ctx.arc(newLon, newLat, 5, 0, 2 * Math.PI);
@@ -49,6 +60,7 @@
                 oldLon = newLon;
                 oldLat = newLat;
             } else {
+                // draw a line
                 ctx.moveTo(oldLon, oldLat);
                 ctx.lineTo(newLon, newLat);
                 ctx.strokeStyle = "red";
@@ -59,11 +71,15 @@
         });
     });
 
+        // stop function
         stop = (function () {
         clearInterval(interval)
         });
-    setTimeout(stop, whenToStop);
-    var interval = setInterval(myTimer, IntervalTime);
+        // define when to stop the function
+        setTimeout(stop, whenToStop);
+        // set the interval
+        var interval = setInterval(myTimer, IntervalTime);
+        // use the function
     myTimer();
 
 
