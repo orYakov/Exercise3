@@ -60,6 +60,13 @@ namespace Exercise3.Controllers
             CommandSender commandSender = CommandSender.Instance;
             string strLon = commandSender.sendAndGetData("get /position/longitude-deg");
             string strLat = commandSender.sendAndGetData("get /position/latitude-deg");
+
+            /////////////////
+            //Random rnd = new Random();
+            //strLon = (float.Parse(strLon) + rnd.Next(50)).ToString();
+            //strLat = (float.Parse(strLat) + rnd.Next(50)).ToString();
+            ///////////////////
+
             // concat lon and lat to one string
             string lonAndLatStr = strLon + " " + strLat;
 
@@ -146,11 +153,11 @@ namespace Exercise3.Controllers
             string strRudder = commandSender.sendAndGetData("get /controls/flight/rudder");
             //string valuesStr = strLon + " " + strLat + " " + strThrottle + " " + strRudder;
 
-            ///////////////
-            Random rnd = new Random();
-            strLon = (float.Parse(strLon) + rnd.Next(50)).ToString();
-            strLat = (float.Parse(strLat) + rnd.Next(50)).ToString();
             /////////////////
+            //Random rnd = new Random();
+            //strLon = (float.Parse(strLon) + rnd.Next(50)).ToString();
+            //strLat = (float.Parse(strLat) + rnd.Next(50)).ToString();
+            ///////////////////
 
             string fileName = (string) Session["fileName"];
             // get a file path to save the file in
